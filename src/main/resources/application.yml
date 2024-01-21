@@ -14,6 +14,12 @@ spring:
       host: localhost
       port: 6379
 
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db-init/schema.sql
+      data-locations: classpath:db-init/test-data.sql
+
 server:
   shutdown: graceful
   port: 8080
@@ -37,3 +43,16 @@ payment:
     key:
       client: access-key
       secret: secret-key # secret key ? base64? encoding ???
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  r2dbc:
+    url: r2dbc:pool:h2://localhost/payment
+  sql:
+    init:
+      mode: always
