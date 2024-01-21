@@ -16,9 +16,13 @@ java {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
+
+    implementation("au.com.console:kassava:2.1.0")
+
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
