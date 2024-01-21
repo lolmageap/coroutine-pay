@@ -3,7 +3,10 @@ package com.example.coroutinepayment.model
 import au.com.console.kassava.kotlinEquals
 import au.com.console.kassava.kotlinHashCode
 import au.com.console.kassava.kotlinToString
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.annotation.Id
+import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
 
 @Table("order")
@@ -17,7 +20,12 @@ data class Order(
     var pgKey: String? = null,
     var pgStatus: PgStatus = PgStatus.CREATE,
     var pgRetryCount: Int = 0,
-): BaseEntity() {
+): BaseEntity(), Persistable<Long> {
+
+    @Value("null")
+    @JsonIgnore
+    private var new: Boolean = false
+
     override fun equals(other: Any?) =
         kotlinEquals(
             other,
@@ -47,5 +55,9 @@ data class Order(
                 Order::pgRetryCount,
             ), superToString = { super.toString() }
         )
+
+    override fun getId(): Long = id
+
+    override fun isNew(): Boolean = new
 }
 

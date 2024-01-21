@@ -3,7 +3,10 @@ package com.example.coroutinepayment.model
 import au.com.console.kassava.kotlinEquals
 import au.com.console.kassava.kotlinHashCode
 import au.com.console.kassava.kotlinToString
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.annotation.Id
+import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
 
 @Table("product_in_order")
@@ -18,7 +21,11 @@ data class ProductInOrder(
 
     @Id
     val seq: Long = 0,
-) {
+): BaseEntity(), Persistable<Long> {
+
+    @Value("null")
+    @JsonIgnore
+    private var new: Boolean = false
 
     /**
      * JPA 에서는 아래와 같이 복합키가 사용이 가능하다.
@@ -58,4 +65,8 @@ data class ProductInOrder(
                 ProductInOrder::quantity,
             ), superToString = { super.toString() }
         )
+
+    override fun getId(): Long = id
+
+    override fun isNew(): Boolean = new
 }
