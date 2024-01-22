@@ -4,4 +4,5 @@ import com.example.coroutinepayment.model.ProductInOrder
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface ProductInOrderRepository: CoroutineCrudRepository<ProductInOrder, Long> {
+    fun findAllByOrderId(id: Long): List<ProductInOrder>
 }
